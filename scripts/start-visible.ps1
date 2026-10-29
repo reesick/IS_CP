@@ -31,14 +31,12 @@ Get-Content '$root\data\logs\ml-runtime.log' -Tail 30 -Wait
 "@
 Start-Process powershell -ArgumentList @('-NoExit','-NoProfile','-Command',$tail)
 
-$portraitDone=(Test-Path outputs\portrait-demo\results.json) -and (Select-String -Path outputs\portrait-demo\progress.json -Pattern '"done"' -Quiet -ErrorAction SilentlyContinue)
-if ($portraitDone -and -not $RerunPortrait) { Write-Host 'Portrait already protected and tested; skipping (use -RerunPortrait to redo).' -ForegroundColor DarkGray }
-if (-not $NoPortrait -and (-not $portraitDone -or $RerunPortrait)) {
+if (-not $NoPortrait) {
+    $rerunFlag = if ($RerunPortrait) { '-Rerun' } else { '' }
     $job = @"
-`$Host.UI.RawUI.WindowTitle='ImageShield portrait job'
+`$Host.UI.RawUI.WindowTitle='ImageShield face jobs'
 Set-Location '$root'
-`$env:PYTHONUNBUFFERED='1'
-& powershell -NoProfile -ExecutionPolicy Bypass -File '$root\scripts\run-portrait-demo.ps1' -Foreground
+& powershell -NoProfile -ExecutionPolicy Bypass -File '$root\scripts\run-faces.ps1' $rerunFlag
 "@
     Start-Process powershell -ArgumentList @('-NoExit','-NoProfile','-ExecutionPolicy','Bypass','-Command',$job)
 }

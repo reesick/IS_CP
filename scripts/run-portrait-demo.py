@@ -12,6 +12,7 @@ import traceback
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 OUT=ROOT/'outputs/portrait-demo'
 PROMPT='a smiling man wearing round sunglasses, realistic studio portrait photograph'
+BOX=(.26,.27,.76,.97)
 SEED=11
 
 def status(**fields):
@@ -20,7 +21,7 @@ def status(**fields):
     except (OSError,ValueError):pass
     previous.update(fields,updated_at=time.time())
     shown={k:v for k,v in fields.items() if k in ('phase','stage','completed','total','objective','error','state')}
-    print(time.strftime('%H:%M:%S'),'[portrait]',' | '.join(f'{k}={round(v,2) if isinstance(v,float) else v}' for k,v in shown.items()),flush=True)
+    print(time.strftime('%H:%M:%S'),f'[{OUT.name}]',' | '.join(f'{k}={round(v,2) if isinstance(v,float) else v}' for k,v in shown.items()),flush=True)
     tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(previous));tmp.replace(path)
 
 def prepare():
@@ -34,7 +35,7 @@ def prepare():
     canvas.save(OUT/'clean.png')
     # Editable region: the face, eyebrows to chin (normalised source coordinates).
     mask=Image.new('L',(512,512),0)
-    box=(x0+round(.26*w),y0+round(.27*h),x0+round(.76*w),y0+round(.97*h))
+    box=(x0+round(BOX[0]*w),y0+round(BOX[1]*h),x0+round(BOX[2]*w),y0+round(BOX[3]*h))
     ImageDraw.Draw(mask).rectangle(box,fill=255)
     mask.save(OUT/'edit-mask.png')
     return box
@@ -49,6 +50,8 @@ def protect(steps):
     result=dct_protect(OUT/'clean.png',OUT/'protected.png',steps=steps,progress=tick)
     result['fidelity']=measure(OUT/'clean.png',OUT/'protected.png',8/255)
     result['mask_box']=box;result['prompt']=PROMPT;result['seed']=SEED
+    import hashlib
+    result['sha256']={name:hashlib.sha256((OUT/f'{name}.png').read_bytes()).hexdigest() for name in ('clean','protected')}
     (OUT/'results.json').write_text(json.dumps(result,indent=2,default=str))
     status(phase='protect',stage='Protection saved',completed=steps,total=steps)
 
@@ -69,7 +72,12 @@ if __name__=='__main__':
     parser.add_argument('phase',choices=['protect','edit'])
     parser.add_argument('--steps',type=int,default=1000)
     parser.add_argument('--offload',action='store_true')
-    args=parser.parse_args();OUT.mkdir(parents=True,exist_ok=True)
+    parser.add_argument('--dir',default='portrait-demo')
+    args=parser.parse_args()
+    OUT=ROOT/'outputs'/args.dir;OUT.mkdir(parents=True,exist_ok=True)
+    try:
+        meta=json.loads((OUT/'sample.json').read_text());PROMPT=meta.get('prompt',PROMPT);BOX=tuple(meta.get('box',BOX))
+    except (OSError,ValueError):pass
     try:
         protect(args.steps) if args.phase=='protect' else edit(args.offload)
     except BaseException as exc:

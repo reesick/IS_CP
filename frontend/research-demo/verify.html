@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImageShield Verify</title><link rel="icon" type="image/svg+xml" href="/static/favicon.svg"><link rel="stylesheet" href="/static/verify.css"><script src="/static/verify.js" defer></script></head>
+<body>
+<header class="vbar"><a class="vbrand" href="/"><span class="vmark">I</span>ImageShield <span class="vtag">Verify</span></a><nav><a href="/dashboard#verify">Audit trail</a><a href="/dashboard">Dashboard</a></nav></header>
+<main class="vmain">
+<section class="vhero"><h1>Is this image protected?</h1><p>Upload any image. ImageShield checks the pixels themselves against its evidence registry, so the proof survives even when metadata is stripped, the file is re-saved as JPEG, or it is resized.</p></section>
+<label id="vdrop" class="vdrop" for="vfile"><input id="vfile" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/><path d="M12 15V8m-3 3l3-3 3 3"/></svg>
+<strong>Drop an image or click to choose</strong><span>PNG, JPEG or WebP, up to 10 MB. The image is not stored; only its SHA-256 and the result are written to the audit log.</span></label>
+<section id="vresult" class="vresult" hidden>
+<div class="vverdict" id="vverdict"><div class="vicon" id="vicon"></div><div><div class="vlabel" id="vlabel"></div><h2 id="vtitle"></h2><p id="vsummary"></p></div></div>
+<div class="vcompare"><figure><img id="vprobe" alt="Uploaded image"><figcaption>Your image</figcaption></figure><figure id="vmatchfig"><img id="vmatch" alt="Registered record"><figcaption id="vmatchcap">Registered record</figcaption></figure></div>
+<div class="vcols">
+<section class="vcard"><h3>Proof from the pixels</h3><p class="vnote">Independent of metadata</p><ul id="vproof" class="vchecks"></ul></section>
+<section class="vcard"><h3>What the file's metadata claims</h3><p class="vnote">EXIF and C2PA content credentials can be removed by a screenshot or a re-upload</p><ul id="vmeta" class="vchecks"></ul></section>
+</div>
+<section class="vcard vtech"><h3>Technical details</h3><dl id="vdetails"></dl></section>
+</section>
+<section class="vhow"><h3>How the proof works</h3><ol><li><b>Fingerprint.</b> Every original, protected export and AI edit from the pipeline is registered with its SHA-256 and a 256-bit perceptual hash.</li><li><b>Protection pattern.</b> For copies that are not byte-identical, both registered versions are put through the same resizing and JPEG steps, and the closest one wins, so a protected copy is told apart from the clean original.</li><li><b>Tamper-evident log.</b> Every registration and check is appended to a SHA-256 hash chain. Editing any past entry breaks the chain.</li></ol></section>
+</main>
+<footer class="vfoot">ImageShield · Information Security course project · runs locally on this machine</footer>
+</body></html>

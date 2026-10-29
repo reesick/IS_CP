@@ -12,7 +12,7 @@ function message(text,error=false,target="#status"){const node=$(target);node.te
 function clock(seconds){seconds=Math.max(0,Math.floor(seconds));const m=Math.floor(seconds/60),s=seconds%60;return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;}
 function serverNow(){return Date.now()/1000+clockOffset;}
 
-function showView(){const views={comparisons:"Comparisons",pipeline:"Pipeline",playground:"Playground","use-cases":"Use cases"};const view=Object.hasOwn(views,location.hash.slice(1))?location.hash.slice(1):"comparisons";for(const id of Object.keys(views))$("#"+id).hidden=(id!==view)||(!loaded&&["comparisons","pipeline"].includes(id));$("#saved-panel").hidden=["playground","use-cases"].includes(view);$("#page-title").textContent=views[view];for(const link of document.querySelectorAll(".nav-item")){if(link.hash==="#"+view)link.setAttribute("aria-current","page");else link.removeAttribute("aria-current");}if(view!=="pipeline")stopPlay();}
+function showView(){const views={comparisons:"Comparisons",pipeline:"Pipeline",playground:"Playground",verify:"Verify & audit","use-cases":"Use cases"};const view=Object.hasOwn(views,location.hash.slice(1))?location.hash.slice(1):"comparisons";for(const id of Object.keys(views))$("#"+id).hidden=(id!==view)||(!loaded&&["comparisons","pipeline"].includes(id));$("#saved-panel").hidden=["playground","use-cases","verify"].includes(view);if(view==="verify")loadAudit();$("#page-title").textContent=views[view];for(const link of document.querySelectorAll(".nav-item")){if(link.hash==="#"+view)link.setAttribute("aria-current","page");else link.removeAttribute("aria-current");}if(view!=="pipeline")stopPlay();}
 window.addEventListener("hashchange",()=>{showView();const context=location.hash==="#playground"?preloaded:selected;if(context)$("#method").textContent=context.method;requestAnimationFrame(()=>window.scrollTo(0,0));});
 function image(id,url){const node=$("#"+id);if(!node)return;node.src=url;const link=$("#"+id+"-link");if(link)link.href=url;}
 
@@ -25,7 +25,7 @@ function showExample(example){
   $("#method").textContent=example.method;$("#candidate-method").textContent=example.method;$("#example-prompt").textContent=example.prompt;$("#comparison-label").textContent=example.label;
   $("#result-meta").textContent=`Seed ${example.seed} · ${example.channel==="jpeg_simulation"?"JPEG simulation":"Local PNG"}`;
   const gate=example.quality_gate;const passed=gate===true||gate==="passed";const failed=gate===false||gate==="failed";
-  const quality=$("#quality-status");quality.textContent=passed?"Fidelity passed":failed?"Visible noise · Fidelity failed":"Fidelity unverified";quality.classList.toggle("failed",failed);
+  const quality=$("#quality-status");quality.textContent=passed?"Invisible · fidelity passed":failed?"Visible noise":"Fidelity unverified";quality.classList.toggle("failed",failed);
   quality.title=failed?"Candidate contains visible noise and failed the fidelity gate.":"Input fidelity does not establish edit resistance.";
   const verdict=$("#verdict-badge");verdict.textContent=example.verdict?example.verdict.label:"";verdict.dataset.tone=example.verdict?example.verdict.tone:"";verdict.title=example.verdict?example.verdict.text:"";
   $("#safety-warning").hidden=!example.safety_filtered;
@@ -61,7 +61,7 @@ function selectStep(index){
   if(node&&wrap&&!wrap.hidden){const target=node.offsetLeft-(wrap.clientWidth-node.offsetWidth)/2;wrap.scrollTo({left:Math.max(0,target),behavior:"smooth"});}
   $("#pipe-phase").textContent=step.phase||"";$("#pipe-count").textContent=`Step ${pipeIndex+1} of ${steps.length}`;
   $("#pipe-title").textContent=step.title;$("#pipe-detail").textContent=step.detail;
-  const status=$("#pipe-status");const tones={pass:"Passed",fail:"Failed"};
+  const status=$("#pipe-status");const tones={pass:"Invisible",fail:"Visible noise"};
   status.hidden=!step.status;if(step.status){status.textContent=tones[step.status]||selected.verdict?.label||"Review";status.dataset.tone=step.status;}
   const specs=$("#pipe-specs");specs.replaceChildren();for(const [k,v] of step.specs||[]){const row=el("div","pipe-spec");row.append(el("dt","",k),el("dd","",v));specs.append(row);}
   const box=$("#pipe-visual-box");box.replaceChildren();box.className="pipe-visual-box";
@@ -144,21 +144,56 @@ async function loadExamples(){try{const data=await request("/api/examples");if(!
 
 /* ---------- Background portrait job ---------- */
 async function pollBackground(){
-  clearTimeout(bgTimer);let state;try{state=await request("/api/background");}catch{return;}
+  clearTimeout(bgTimer);let state;try{state=await request("/api/background");}catch{bgTimer=setTimeout(pollBackground,10000);return;}
   if(state.now)clockOffset=state.now-Date.now()/1000;
   const banner=$("#bg-banner");const running=state.state==="running";
-  if(state.state==="not_started"||(state.state==="done"&&state.loaded)){banner.hidden=true;clearInterval(bgTick);bgTick=null;if(state.loaded&&!examples.some(e=>e.id==="portrait"))loadExamples();if(state.state==="not_started")bgTimer=setTimeout(pollBackground,10000);return;}
+  if(!state.loaded)await loadExamples();
+  else if(preloaded&&!preloaded.images.candidate_input)await loadExamples();
+  if(!running&&state.state!=="failed"){banner.hidden=true;clearInterval(bgTick);bgTick=null;bgTimer=setTimeout(pollBackground,running?3000:8000);return;}
   banner.hidden=false;banner.classList.toggle("failed",state.state==="failed");
   bgStart=state.started_at||bgStart;
-  const phase=state.phase==="edit"?"Tamper test":"Protection";
-  $("#bg-title").textContent=state.state==="failed"?"Portrait run failed":state.state==="done"?"Portrait ready":`Portrait · ${phase}`;
-  $("#bg-stage").textContent=state.state==="failed"?(state.error||""):`${state.stage||""}${state.total?` · ${state.completed}/${state.total}`:""}`;
+  const phase=state.phase==="edit"?"Tamper test":"Protection";const who=state.label||"Face";
+  const queue=(state.queued||[]).length?` · next: ${state.queued.join(", ")}`:"";
+  $("#bg-title").textContent=state.state==="failed"?`${who} run failed`:`${who} · ${phase}`;
+  $("#bg-stage").textContent=state.state==="failed"?(state.error||""):`${state.stage||""}${state.total?` · ${state.completed}/${state.total}`:""}${queue}`;
   $("#bg-fill").style.width=state.total?`${Math.round(100*state.completed/state.total)}%`:"5%";
   if(running&&!bgTick)bgTick=setInterval(()=>{$("#bg-time").textContent=bgStart?`${clock(serverNow()-bgStart)} elapsed`:"";},500);
   if(!running){clearInterval(bgTick);bgTick=null;}
-  if(state.state==="done"||(preloaded&&!preloaded.images.candidate_input))await loadExamples();
-  bgTimer=setTimeout(pollBackground,running?3000:10000);
+  bgTimer=setTimeout(pollBackground,running?3000:8000);
 }
+
+/* ---------- Verify & audit ---------- */
+const verdictTone={VERIFIED:"good",MODIFIED:"warn",TAMPERED:"bad",UNKNOWN:"neutral",INVALID:"bad"};
+function short(h){return h?h.slice(0,12)+"…":"";}
+async function loadAudit(){
+  let data;try{data=await request("/api/audit");}catch(e){$("#chain-status").textContent=e.message;return;}
+  const c=data.chain,cs=$("#chain-status");cs.textContent=c.ok?`Chain intact · ${c.count} entries · head ${short(c.head)}`:`Chain BROKEN at entry ${c.broken_at}: ${c.reason}`;cs.dataset.tone=c.ok?"good":"bad";
+  const body=$("#audit-rows");body.replaceChildren();
+  for(const e of data.entries){const tr=el("tr");const subject=e.action==="REGISTER"?`${e.label} (${Object.keys(e.files||{}).length} files)`:`${e.filename||""}`;
+    const res=e.action==="REGISTER"?"registered":`${e.verdict}${e.matched?" · "+e.matched:""}`;
+    const cells=[String(e.seq),(e.time||"").replace("T"," ").slice(0,19),e.action+(e.source&&e.source!=="dashboard"?` (${e.source})`:""),subject,res,short(e.entry_hash),short(e.prev_hash)];
+    cells.forEach((t,i)=>{const td=el("td","",t);if(i===4&&e.verdict)td.dataset.tone=verdictTone[e.verdict]||"";if(i>=5)td.className="mono";tr.append(td);});body.append(tr);}
+  const reg=$("#registry");reg.replaceChildren();let n=0;
+  for(const s of data.registry){const card=el("div","reg-card");card.append(el("h3","",s.label));const row=el("div","reg-row");
+    for(const it of s.items){n++;const f=el("figure","reg-item");const img=el("img");img.src=it.image;img.alt=it.role_label;img.loading="lazy";f.append(img,el("figcaption","",it.role_label),el("code","",short(it.sha256)));row.append(f);}
+    card.append(row);reg.append(card);}
+  $("#registry-count").textContent=`${n} images across ${data.registry.length} samples`;
+}
+async function verifyFile(file){
+  if(!file)return;const box=$("#verify-result");box.hidden=false;$("#v-verdict").textContent="Checking…";$("#v-verdict").dataset.tone="neutral";$("#v-summary").textContent=file.name;
+  const url=URL.createObjectURL(file);$("#v-probe").src=url;$("#v-match").removeAttribute("src");$("#v-details").replaceChildren();
+  try{const r=await request("/api/verify",{method:"POST",headers:{"Content-Type":"application/octet-stream","X-Filename":encodeURIComponent(file.name).slice(0,200)},body:file});
+    $("#v-verdict").textContent=r.verdict;$("#v-verdict").dataset.tone=verdictTone[r.verdict]||"neutral";$("#v-summary").textContent=r.summary;
+    if(r.match){$("#v-match").src=r.match.image;$("#v-match-label").textContent=`Matched: ${r.match.role_label} · ${r.match.label}`;}else $("#v-match-label").textContent="No matching record";
+    const rows=[["Verdict",r.verdict],["SHA-256",r.sha256],["Size",r.size?`${r.size[0]} x ${r.size[1]}`:"-"],["Matched record",r.match?`${r.match.label} / ${r.match.role}`:"none"],["Similarity",r.similarity!=null?`${r.similarity}%`:"-"],["Pixels changed",r.pixels_changed!=null?`${r.pixels_changed}%`:"different size or re-encoded"],["Protection present",r.protection_present?"yes":"no"],["Audit entry",`#${r.audit_seq} · ${short(r.audit_hash)}`]];
+    for(const [k,v] of rows){const d=el("div","pipe-spec");d.append(el("dt","",k),el("dd","",v));$("#v-details").append(d);}
+  }catch(e){$("#v-verdict").textContent="ERROR";$("#v-verdict").dataset.tone="bad";$("#v-summary").textContent=e.message;}
+  loadAudit();
+}
+$("#verify-file").addEventListener("change",e=>verifyFile(e.target.files[0]));
+const drop=$("#drop");["dragenter","dragover"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add("over");}));
+["dragleave","drop"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove("over");}));
+drop.addEventListener("drop",e=>verifyFile(e.dataTransfer.files[0]));
 
 showView();
 loadExamples().then(()=>{if(latestResult){const match=examples.find(e=>e.id===latestResult.sample);if(match&&preloaded?.id!==match.id)preload(match);}});
