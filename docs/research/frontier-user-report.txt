@@ -1,0 +1,230 @@
+FRONTIER IMAGEPROTECTION
+Research papers, source code, benchmarks and evidence gaps
+Focus: imperceptible image protection intended to disrupt AI image editing, with particular interest in OpenAI GPT Image 2 and Google Nano Banana Pro.
+Research cutoff: 28 October 2026
+Prepared as a research inventory. This document distinguishes published claims, code availability and direct evidence for the two target products; it does not treat a paper’s reported results as independently reproduced.
+Executive summary
+The research field has moved beyond the original PhotoGuard strategy of perturbing a legacy diffusion encoder. Newer approaches target reference-image attention in unified editors (VETO), use learned image immunization at scale (DiffVax), improve resilience to purification (BlurGuard), or attempt to influence commercial systems at the moderation layer (MIRAGE). Work such as SRIM addresses a practical failure mode: the protected image is resized before the editor processes it. Counter-evidence shows that generic image-to-image models can remove protective perturbations, so durability must be measured against transformations and adaptive processing.
+For the stated objective—make an imperceptibly modified image fail when GPT Image 2 or Nano Banana Pro tries to edit it—the evidence remains incomplete. The public sources reviewed here do not establish a reproducible, independently verified demonstration that one method reliably defeats both exact target versions. VETO is the closest directly code-available research lead for modern reference-based editors, while MIRAGE explicitly studies commercial APIs but its public abstract does not pin down the exact current versions of both targets. DiffVax is a substantial 2026 codebase, but its documented attack model is Stable Diffusion inpainting, not these frontier APIs.
+What counts as success for this project
+Target systems: GPT Image 2 (use the exact product/API model identifier available at test time) and Nano Banana Pro (record the exact Gemini product/API identifier and date).
+Desired effect: the image remains visually close to the original to a human, but the requested edit fails or materially loses fidelity.
+Do not conflate a visually poor output, API refusal, watermark detection, training-data protection, and actual failure of an image edit. These are different outcomes.
+Evidence grade in this report: 'direct code' means a public repository is linked; 'target-specific' means a source explicitly documents the exact named product/version; 'reported' means authors’ own claims, not independent reproduction.
+Quick comparison
+Work
+Year / venue
+Public code
+Core idea
+Evidence for GPT Image 2 + Nano Banana Pro
+PhotoGuard
+2023
+Yes
+Perturb encoder representation / steer generation
+No direct evidence
+DiffusionGuard
+2024 / ICLR 2025 research line
+Yes
+Disrupt diffusion editing, including inpainting
+No direct evidence
+DCT-Shield
+2025 / ICCV
+Official stable repo not verified in this review
+Frequency-domain perturbations aimed at JPEG robustness
+No direct evidence
+BlurGuard
+2025 / NeurIPS
+Yes
+Region-adaptive blur to improve resistance to purification
+No direct evidence
+DiffVax
+2026 / ICLR
+Yes
+Learned, optimization-free immunization model
+No direct evidence; documented SD inpainting target
+MIRAGE
+2026 / preprint
+Official repo not verified
+Moderation-layer refusal via perturbation
+Commercial API family claims; exact versions not established
+VETO
+2026 / preprint
+Yes
+Disrupt reference-to-canvas attention in unified editors
+Not established for either exact target
+SRIM
+2026 / preprint
+Official repo not verified
+Worst-case scale-robust protection against resizing
+Popular editors reported; exact target/version coverage unclear
+Image-to-image denoising study
+2026 / preprint
+Yes
+Counter-evidence: generic image-to-image models remove protection
+Not a defense; relevant failure analysis
+
+Chronological research catalogue
+Entries are ordered by first public release or publication year, with the most directly relevant code and paper links included. Dates and claims below reflect the linked papers/repositories, not independent reruns.
+1. PhotoGuard — original baseline (2023)
+Why it matters: establishes the original adversarial-perturbation framing and remains a baseline for later comparisons. Its design targets older diffusion pipelines and should not be assumed to transfer to modern unified editors.
+GitHub: https://github.com/MadryLab/photoguard
+Paper: https://arxiv.org/abs/2302.06588
+MIT overview: https://news.mit.edu/2023/using-ai-protect-against-ai-image-manipulation-0731
+Code includes image-to-image and inpainting demonstrations.
+Useful as a historical baseline; not evidence of protection against GPT Image 2 or Nano Banana Pro.
+Known limitation in the original research discussion: transformations such as cropping, rotation, noise and compression can weaken perturbations.
+2. DiffusionGuard — stronger diffusion-editing baseline (paper first posted 2024)
+Why it matters: a direct successor-style baseline for malicious diffusion editing, including masked/inpainting scenarios. It is useful for understanding how a defense can target the editing process rather than relying only on a simple fixed image target.
+GitHub: https://github.com/choi403/DiffusionGuard
+Paper: https://arxiv.org/abs/2410.05694
+Public code is available for the method and its evaluation.
+The paper evaluates diffusion-based editing; it does not establish transfer to the exact commercial target versions in scope.
+3. DCT-Shield — JPEG-aware frequency-domain protection (2025 / ICCV)
+Why it matters: JPEG compression can remove or weaken pixel-space perturbations. DCT-Shield optimizes protection in the frequency domain to improve resilience to JPEG processing.
+Paper: https://arxiv.org/abs/2504.17894
+Project page: https://dct-shield.github.io/project-page/
+ICCV publication: https://openaccess.thecvf.com/content/ICCV2025/html/Bala_DCT-Shield_A_Robust_Frequency_Domain_Defense_against_Malicious_Image_Editing_ICCV_2025_paper.html
+The paper/project is a credible lead for compression robustness.
+An official stable public GitHub repository was not verified in this review; do not assume code is available merely because the paper has a project page.
+JPEG robustness is not equivalent to frontier-model transferability.
+4. BlurGuard — robustness against purification (2025 / NeurIPS)
+Why it matters: focuses on the possibility that a user or model first removes the protective noise. It applies adaptive, region-specific blur to the perturbation to improve resilience to purification.
+GitHub: https://github.com/jsu-kim/BlurGuard
+Paper / arXiv: https://arxiv.org/abs/2511.00143
+Repository documents protection, purification, edit-generation and evaluation scripts.
+Its setup includes older model dependencies and a separate environment for PDM-Pure; this matters for reproducibility.
+The tested pipelines are not proof of performance on GPT Image 2 or Nano Banana Pro.
+5. DiffVax — optimization-free image immunization (2026 / ICLR)
+Why it matters: replaces per-image iterative optimization with a trained model that predicts a protective perturbation. The authors report a large speedup and evaluate image/video immunization.
+Official GitHub: https://github.com/ozdentarikcan/DiffVax
+ICLR 2026 paper page: https://proceedings.iclr.cc/paper_files/paper/2026/hash/0054c8a2c903d46496ca1f98d1322988-Abstract-Conference.html
+Project page: https://diffvax.github.io/
+Repository includes a Gradio app, trained checkpoint, demo and comparison notebooks, training/evaluation scripts, metrics and PhotoGuard/DiffusionGuard baselines.
+README documents Python 3.12 setup and a CUDA GPU recommendation of 8 GB VRAM minimum, 16 GB+ recommended for training.
+The documented attack model is Stable Diffusion inpainting. The paper’s generalization claims do not establish results for the exact closed-source targets.
+6. MIRAGE — moderation-layer approach for closed-source APIs (June 2026 preprint)
+Why it matters: explicitly recognizes that commercial editors do not expose model weights. Rather than directly disrupting image generation, it seeks to cause pre-generation moderation to refuse the request.
+Paper: https://arxiv.org/abs/2606.26199
+Authors report success rates above 88% across multiple closed-source image-editing APIs.
+The paper names GPT-Image, Gemini Flash Image (Nano Banana) and Grok Imagine in its motivation. The public abstract does not establish that exact current GPT Image 2 and Nano Banana Pro versions were both evaluated.
+An official public GitHub repository was not verified in this review.
+A moderation refusal is a system-level outcome; it does not demonstrate that the image-generation model itself is unable to edit the image.
+7. VETO — protection for modern reference-based editors (July 2026 preprint)
+Why it matters: among the closest conceptual matches to frontier image editors. It targets joint attention between reference-image tokens and the generated canvas in modern unified editors, rather than only a legacy VAE encoder.
+Official GitHub: https://github.com/multimodal-ai-lab/VETO
+Paper: https://arxiv.org/abs/2607.27292
+Project page / demo / VetoBench: https://jonasgrebe.github.io/research/projects/veto/
+The repository describes a PyTorch implementation, configurations for FLUX.2 and Fibo-Edit, a Gradio demo, and VetoBench.
+VetoBench contains 300 images across general, defamation and gore categories; each category includes closed-frame and open-frame edits.
+The documented evaluation pipeline includes edit/fidelity metrics and optional VQA backends.
+Authors report improvements across two contemporary open-weight editing models and three benchmarks.
+The exact target APIs GPT Image 2 and Nano Banana Pro are not demonstrated by the stated experiments. This is a key scope limitation.
+8. SRIM — scale-robust image immunization (October 2026 preprint)
+Why it matters: modern editors may resize high-resolution uploads internally. SRIM is designed to protect across a range of possible scales, focusing each optimization step on the weakest scale.
+Paper: https://arxiv.org/abs/2610.07464
+Authors report experiments on full-resolution photos and popular instruction-guided editors, including input purification.
+The source reviewed is a recent preprint. An official public GitHub implementation was not verified.
+The paper’s abstract does not establish exact GPT Image 2 and Nano Banana Pro version coverage.
+9. Off-the-shelf image-to-image models can remove protection (February 2026)
+Why it matters: this is important counter-evidence. The authors report that ordinary image-to-image generative models, prompted to act as denoisers, can remove perturbations from six protection schemes across eight case studies while retaining image utility.
+Code repository: https://github.com/mlsecviswanath/img2imgdenoiser
+Paper: https://arxiv.org/abs/2602.22197
+This is not a protective method; it is a study of how protection schemes fail.
+It makes evaluation against preprocessing, regeneration and purification essential.
+The paper does not itself prove that GPT Image 2 or Nano Banana Pro defeats every defense; its findings establish a broader vulnerability in existing perturbation-based approaches.
+10. Adjacent research: invisible watermark survival (2026)
+Invisible watermarking is related but not identical to anti-edit immunization. A watermark is usually designed to remain detectable; a protective perturbation is intended to disrupt editing. A watermark surviving detection tests does not mean the image cannot be edited.
+Vanishing Watermarks paper: https://arxiv.org/abs/2602.20680
+PECCAVI / CVPR 2026 paper: https://openaccess.thecvf.com/content/CVPR2026/html/Dixit_PECCVAI_Overcoming_the_Brittleness_of_AI_Image_Watermarking_Under_Visual_CVPR_2026_paper.html
+The 2026 watermark studies examine loss of watermark detectability after generative reconstruction or visual paraphrasing.
+They are useful for understanding signal durability, but they do not establish that a watermarked image becomes uneditable.
+11. Useful research index
+An actively maintained topic index is useful for discovering additional papers and their linked code. It is an index, not primary evidence; individual papers and repositories should be checked directly.
+Awesome adversarial attacks and defenses on diffusion models: https://github.com/ozgurkara99/awesome-adv-attack-defense-on-diffusion
+Exact target coverage: what the evidence currently says
+Method
+Public implementation verified
+Direct test of GPT Image 2
+Direct test of Nano Banana Pro
+Assessment
+VETO
+Yes
+Not established
+Not established
+Best code-backed lead for modern reference-based editors, but not validated on the exact targets.
+DiffVax
+Yes
+No evidence found
+No evidence found
+Good runnable immunization baseline; documented target is SD inpainting.
+BlurGuard
+Yes
+No evidence found
+No evidence found
+Useful purification-resilience baseline.
+MIRAGE
+Not verified
+Exact version not established
+Exact version not established
+Closest cited commercial-API approach; code/reproduction gap remains.
+SRIM
+Not verified
+Exact version not established
+Exact version not established
+Relevant to upload resizing; code gap remains.
+DCT-Shield
+Not verified
+No evidence found
+No evidence found
+Relevant to JPEG durability; code gap remains.
+Image-to-image denoising study
+Yes
+Not a defense test of the exact target
+Not a defense test of the exact target
+Important counter-evidence about perturbation removal.
+
+Assessment of whether the requested deliverable is achievable
+The research supports a credible experimental programme, but not a claim that the exact deliverable has already been achieved. There are publicly available implementations for modern-editor protection (VETO), scalable immunization (DiffVax), purification-resilience analysis (BlurGuard), and counter-defense testing (img2imgdenoiser). There is also a 2026 commercial-API paper (MIRAGE), but its official implementation was not verified in this review. Crucially, none of the sources examined here provides a reproducible, independently verified result showing that a visually imperceptible image modification reliably prevents both GPT Image 2 and Nano Banana Pro from performing meaningful edits.
+The evidence gap is therefore specific: exact-version testing against both target products, transparent reporting of API/product identifiers and dates, repeated trials, and a measurable definition of edit failure. Results from FLUX.2, Fibo-Edit or Stable Diffusion are valuable but cannot be substituted for direct tests of the two target products.
+Evidence and source-quality notes
+Primary sources are prioritized: official conference proceedings, arXiv records, project pages and author repositories.
+Reported performance numbers are attributed to the authors and have not been independently reproduced for this document.
+Repository availability was checked through accessible repository/project pages; no code was run and no experimental outputs were independently generated.
+Where a public GitHub repository could not be verified, the report explicitly says so rather than guessing a URL.
+Commercial model names and versions may change. A future test must record the exact interface/API identifier and the test date.
+Primary links at a glance
+PhotoGuard GitHub: https://github.com/MadryLab/photoguard
+DiffusionGuard GitHub: https://github.com/choi403/DiffusionGuard
+BlurGuard GitHub: https://github.com/jsu-kim/BlurGuard
+DiffVax GitHub: https://github.com/ozdentarikcan/DiffVax
+VETO GitHub: https://github.com/multimodal-ai-lab/VETO
+Image-to-image denoising counter-study GitHub: https://github.com/mlsecviswanath/img2imgdenoiser
+DCT-Shield paper: https://arxiv.org/abs/2504.17894
+MIRAGE paper: https://arxiv.org/abs/2606.26199
+SRIM paper: https://arxiv.org/abs/2610.07464
+Awesome diffusion defense index: https://github.com/ozgurkara99/awesome-adv-attack-defense-on-diffusion
+
+EXTERNAL REFERENCES
+https://github.com/MadryLab/photoguard
+https://arxiv.org/abs/2302.06588
+https://news.mit.edu/2023/using-ai-protect-against-ai-image-manipulation-0731
+https://github.com/choi403/DiffusionGuard
+https://arxiv.org/abs/2410.05694
+https://arxiv.org/abs/2504.17894
+https://dct-shield.github.io/project-page/
+https://openaccess.thecvf.com/content/ICCV2025/html/Bala_DCT-Shield_A_Robust_Frequency_Domain_Defense_against_Malicious_Image_Editing_ICCV_2025_paper.html
+https://github.com/jsu-kim/BlurGuard
+https://arxiv.org/abs/2511.00143
+https://github.com/ozdentarikcan/DiffVax
+https://proceedings.iclr.cc/paper_files/paper/2026/hash/0054c8a2c903d46496ca1f98d1322988-Abstract-Conference.html
+https://diffvax.github.io/
+https://arxiv.org/abs/2606.26199
+https://github.com/multimodal-ai-lab/VETO
+https://arxiv.org/abs/2607.27292
+https://jonasgrebe.github.io/research/projects/veto/
+https://arxiv.org/abs/2610.07464
+https://github.com/mlsecviswanath/img2imgdenoiser
+https://arxiv.org/abs/2602.22197
+https://arxiv.org/abs/2602.20680
+https://openaccess.thecvf.com/content/CVPR2026/html/Dixit_PECCVAI_Overcoming_the_Brittleness_of_AI_Image_Watermarking_Under_Visual_CVPR_2026_paper.html
+https://github.com/ozgurkara99/awesome-adv-attack-defense-on-diffusion

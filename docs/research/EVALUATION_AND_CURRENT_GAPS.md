@@ -10,7 +10,7 @@ The adapter retains upstream 800 iterations in research mode, batch one, gradien
 
 Important deliberate differences: fixed known mask replaces contour-shrink augmentation; frozen weights, SDPA, VAE slicing and gradient checkpointing replace original execution details; a locally resolved checkpoint can differ from the original model snapshot; paired editing uses strength .99, 30 steps and the snapshot scheduler. Record exact revisions and settings rather than describing this as identical paper evaluation. Checkpointing is a memory technique, not an efficacy improvement. The objective uses empty text conditioning, fresh random latents and sampled VAE posteriors during optimization; the downstream fashion prompt does not enter this adapter objective.
 
-Current `scripts/test-dnew.py` tries lower budgets until quality passes, uses smoke mode, runs one seed, and leaves efficacy unreviewed. That selects for fidelity, not disruption. Preserve each failed attempt in a fixed-budget comparison instead. Quality rejection must remain visible but should not prevent a diagnostic research edit of that output in an explicitly isolated evaluation path. A quality failure cannot become a product success.
+Current `scripts/research/test-dnew.py` tries lower budgets until quality passes, uses smoke mode, runs one seed, and leaves efficacy unreviewed. That selects for fidelity, not disruption. Preserve each failed attempt in a fixed-budget comparison instead. Quality rejection must remain visible but should not prevent a diagnostic research edit of that output in an explicitly isolated evaluation path. A quality failure cannot become a product success.
 
 ## Primary research evidence
 

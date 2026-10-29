@@ -28,9 +28,9 @@ if ($ML) {
     if (!(Test-Path .venv-ml\Scripts\python.exe)) { python -m venv .venv-ml }
     & .\.venv-ml\Scripts\python.exe -m pip install -r requirements-ml.lock --extra-index-url https://download.pytorch.org/whl/cu121
     if ($LASTEXITCODE -ne 0) { throw 'ML installation failed' }
-    & .\.venv-ml\Scripts\python.exe scripts/check_environment.py --require-cuda
+    & .\.venv-ml\Scripts\python.exe scripts/setup/check_environment.py --require-cuda
 }
 if ($DownloadModel) {
-    & .\.venv-ml\Scripts\python.exe scripts/download_models.py --model sd15_inpaint --ranged --workers 12
+    & .\.venv-ml\Scripts\python.exe scripts/setup/download_models.py --model sd15_inpaint --ranged --workers 12
     if ($LASTEXITCODE -ne 0) { throw 'Model download failed; inspect error above' }
 }

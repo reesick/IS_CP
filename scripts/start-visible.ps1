@@ -7,7 +7,7 @@ $root=Split-Path $PSScriptRoot -Parent
 Set-Location $root
 Write-Host 'Closing ports 8000/8001 and old ImageShield processes...' -ForegroundColor Yellow
 Get-NetTCPConnection -LocalPort 8000,8001 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique | ForEach-Object { taskkill /PID $_ /T /F 2>$null | Out-Null }
-Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like '*ImageShield*' -and $_.CommandLine -match 'research_demo|ml_runner|run-portrait-demo|backend.app' -and $_.ProcessId -ne $PID } | ForEach-Object { taskkill /PID $_.ProcessId /T /F 2>$null | Out-Null }
+Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like '*ImageShield*' -and $_.CommandLine -match 'research_demo|ml_runner|run-face-sample|backend.app' -and $_.ProcessId -ne $PID } | ForEach-Object { taskkill /PID $_.ProcessId /T /F 2>$null | Out-Null }
 Start-Sleep -Seconds 2
 New-Item -ItemType Directory -Force data\logs,outputs\portrait-demo | Out-Null
 if (-not (Test-Path data\logs\ml-runtime.log)) { New-Item data\logs\ml-runtime.log | Out-Null }

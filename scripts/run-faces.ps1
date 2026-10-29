@@ -18,10 +18,10 @@ foreach ($d in $dirs) {
     $done=(Test-Path $progress) -and (Select-String -Path $progress -Pattern '"state": "done"' -Quiet)
     if ($done -and -not $Rerun) { Write-Host "[$d] already done, skipping" -ForegroundColor DarkGray; continue }
     Write-Host "==== [$d] protecting ($Steps steps, about 10 minutes) ====" -ForegroundColor Cyan
-    & $ml scripts/run-portrait-demo.py protect --dir $d --steps $Steps
+    & $ml scripts/research/run-face-sample.py protect --dir $d --steps $Steps
     if ($LASTEXITCODE -ne 0) { Write-Host "[$d] protection FAILED, moving on" -ForegroundColor Red; continue }
     Write-Host "==== [$d] tamper test (PNG + JPEG-85) ====" -ForegroundColor Cyan
-    if (Test-Path $frontier) { & $frontier scripts/run-portrait-demo.py edit --dir $d --offload } else { & $ml scripts/run-portrait-demo.py edit --dir $d }
+    if (Test-Path $frontier) { & $frontier scripts/research/run-face-sample.py edit --dir $d --offload } else { & $ml scripts/research/run-face-sample.py edit --dir $d }
     if ($LASTEXITCODE -ne 0) { Write-Host "[$d] tamper test FAILED" -ForegroundColor Red; continue }
     Write-Host "[$d] done. It appears in the dashboard automatically." -ForegroundColor Green
 }

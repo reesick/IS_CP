@@ -265,9 +265,9 @@ def delete_asset(asset_id:str,request:Request):
 
 @app.get('/')
 def index():
-    return FileResponse(ROOT/'frontend/index.html')
+    return FileResponse(ROOT/'frontend/app/index.html')
 
-app.mount('/static',StaticFiles(directory=str(ROOT/'frontend'),check_dir=False),name='static')
+app.mount('/static',StaticFiles(directory=str(ROOT/'frontend/app'),check_dir=False),name='static')
 
 class BodyLimitMiddleware:
     """Bound chunked uploads before the multipart parser spools their contents."""

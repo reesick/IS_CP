@@ -21,15 +21,15 @@ With the local app running:
 
 ```powershell
 npm install --prefix .cache/ui-test playwright@1.64.1
-node scripts/browser/interface-qa.cjs
-node scripts/browser/mask-qa.cjs
+node scripts/qa/interface-qa.cjs
+node scripts/qa/mask-qa.cjs
 ```
 
 The Playwright npm package is installed under `.cache/ui-test`; these scripts use the installed Microsoft Edge executable and do not download another browser.
 
 ## Actual GPU follow-up
 
-The primary agent subsequently ran `node scripts/gpu-browser-qa.cjs` against the real worker and CUDA models. Upload, numeric region, 20-step protection, quality-passing export, and four-image paired editing passed with no page errors. Authentic running/export/comparison screenshots are available at 1440 and 390; `gpu-browser-qa.json` records their actual jobs. Rejected-quality evidence is preserved separately. A 1/255 smoke budget yielded PSNR50.6255dB/SSIM0.992204; 2/255 and4/255 failed SSIM on this synthetic image. Exact download and synthetic JPEG-channel checks have separate JSON receipts. This establishes working execution, not edit-prevention efficacy.
+The primary agent subsequently ran `node scripts/qa/gpu-browser-qa.cjs` against the real worker and CUDA models. Upload, numeric region, 20-step protection, quality-passing export, and four-image paired editing passed with no page errors. Authentic running/export/comparison screenshots are available at 1440 and 390; `gpu-browser-qa.json` records their actual jobs. Rejected-quality evidence is preserved separately. A 1/255 smoke budget yielded PSNR50.6255dB/SSIM0.992204; 2/255 and4/255 failed SSIM on this synthetic image. Exact download and synthetic JPEG-channel checks have separate JSON receipts. This establishes working execution, not edit-prevention efficacy.
 
 Actual CUDA cancellation, multi-seed human-review interaction and restoration mid-optimization have not been browser-tested. API/worker regression tests cover their lifecycle boundaries. Human visual scores and a controlled efficacy benchmark remain pending.
 

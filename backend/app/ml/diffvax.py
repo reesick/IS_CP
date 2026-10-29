@@ -6,7 +6,8 @@ import subprocess
 import time
 
 ROOT=Path(__file__).resolve().parents[3]
-SOURCE=ROOT/'third_party/candidate-audit/DiffVax'
+SOURCE=ROOT/'third_party/DiffVax'
+if not SOURCE.is_dir() and (ROOT/'third_party/candidate-audit/DiffVax').is_dir():SOURCE=ROOT/'third_party/candidate-audit/DiffVax'  # before repo cleanup
 COMMIT='77fe66a8e6d50223a929081ec0851d9a49153903'
 WEIGHT_SHA='b52500bf07a23aaf3d499adfaebe3e894c5d4fe2b4607fd6aa7fa64665bc43c0'
 

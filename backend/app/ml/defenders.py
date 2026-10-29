@@ -45,7 +45,7 @@ def resolve_model(config=None):
                     candidate = entry["snapshot_path"]
                     break
     if not candidate:
-        raise MLUnavailable("Model files are not installed. Run scripts/download_models.py in the ML environment.")
+        raise MLUnavailable("Model files are not installed. Run scripts/bootstrap.ps1 -ML -DownloadModel.")
     path = Path(candidate)
     if not path.is_absolute():
         path = ROOT / path
@@ -60,7 +60,7 @@ def load_pipeline(config=None):
         import torch
         from diffusers import StableDiffusionInpaintPipeline
     except ImportError as exc:
-        raise MLUnavailable("ML dependencies are missing; run scripts/install-ml-deps.ps1.") from exc
+        raise MLUnavailable("ML dependencies are missing; run scripts/bootstrap.ps1 -ML.") from exc
     if not torch.cuda.is_available():
         raise MLUnavailable("CUDA is unavailable. Use the configured NVIDIA ML environment.")
     path = resolve_model(config)

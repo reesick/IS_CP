@@ -1,9 +1,0 @@
-/* Follow the numbered path across each row, then down to the next card. */
-.pipeline-steps li:not(:last-child)::after{font-size:24px;line-height:28px;color:#aaa}
-@media(min-width:541px){
- .pipeline-steps li:nth-child(3){grid-area:2/2}
- .pipeline-steps li:nth-child(4){grid-area:2/1}
- .pipeline-steps li:nth-child(7){grid-area:4/2}
- .pipeline-steps li:nth-child(8){grid-area:4/1}
- .pipeline-steps li:nth-child(3)::after,.pipeline-steps li:nth-child(7)::after{content:'←';left:-25px;right:auto;top:140px;bottom:auto}
-}
