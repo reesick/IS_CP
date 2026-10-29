@@ -1,0 +1,30 @@
+{
+  "python": "3.11.8",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "packages": {
+    "torch": {
+      "version": "2.1.1+cu121",
+      "installed_wheel": {
+        "archive_info": {
+          "hash": "sha256=cbc1b55879aca47584172a885c35677073110311cdbba3589e80938b15bbc8ad",
+          "hashes": {
+            "sha256": "cbc1b55879aca47584172a885c35677073110311cdbba3589e80938b15bbc8ad"
+          }
+        },
+        "url": "file:///D:/IS/ImageShield/.cache/torch-2.1.1%2Bcu121-cp311-cp311-win_amd64.whl"
+      }
+    },
+    "torchvision": {
+      "version": "0.16.1+cu121",
+      "installed_wheel": {
+        "archive_info": {
+          "hash": "sha256=c7e4c810ba1875278aa2adeeee292ee6cb9d6c17dc00f3dd5ffdf70c5608e8fd",
+          "hashes": {
+            "sha256": "c7e4c810ba1875278aa2adeeee292ee6cb9d6c17dc00f3dd5ffdf70c5608e8fd"
+          }
+        },
+        "url": "file:///D:/IS/ImageShield/.cache/torchvision-0.16.1%2Bcu121-cp311-cp311-win_amd64.whl"
+      }
+    }
+  }
+}

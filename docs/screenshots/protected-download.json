@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "status": 200,
+  "bytes": 195552,
+  "dimensions": [
+    512,
+    512
+  ],
+  "exif_removed": true,
+  "sha256": "1bfcd507fe0b0ab5d15a08b6d9bd597eb9a9df3b7b930de41c4063d165115765"
+}

@@ -1,0 +1,10 @@
+.venv*/
+data/
+outputs/
+models/
+.cache/
+.env
+__pycache__/
+.pytest_cache/
+third_party/
+*.log

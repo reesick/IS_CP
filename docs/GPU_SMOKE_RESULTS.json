@@ -1,0 +1,65 @@
+{
+  "purpose": "smoke, not efficacy benchmark",
+  "synthetic_input": true,
+  "mask_semantics": "passed",
+  "pixel_change": "passed",
+  "quality": {
+    "psnr_db": 42.18309948973975,
+    "ssim": 0.9413525931576882,
+    "max_absolute_difference": 0.019607843137254943,
+    "mean_absolute_difference": 0.005983529683032067,
+    "epsilon": 0.01568627450980392,
+    "rounding_tolerance": 0.00392156862745098,
+    "gate": "failed",
+    "human_review": "pending"
+  },
+  "provenance": {
+    "method": "diffusionguard",
+    "profile": "smoke",
+    "iterations": 20,
+    "training_config": {
+      "size": 512,
+      "iters": 20,
+      "grad_reps": 1,
+      "batch_size": 1,
+      "eps": 0.03137254901960784,
+      "step_size": 0.00392156862745098,
+      "num_inference_steps": 4,
+      "mask": {
+        "generation_method": "single",
+        "contour_strength": 1.1,
+        "contour_iters": 15,
+        "contour_smoothness": 0.1
+      }
+    },
+    "epsilon_rgb": 0.01568627450980392,
+    "epsilon_upstream_normalized": 0.03137254901960784,
+    "mask_policy": "single_known_mask",
+    "reproduction_status": "adapted upstream objective; no contour augmentation or robustness claim",
+    "step_size_upstream_normalized": 0.00392156862745098,
+    "seed": 42,
+    "upstream_commit": "96e28c19124fbb0e0671f48931ffed180775c7ea",
+    "torch_version": "2.1.1+cu121",
+    "diffusers_version": "0.24.0",
+    "model_id": "sd15_inpaint",
+    "model_revision": "8a4288a76071f7280aedbdb3253bdb9e9d5d84bb",
+    "model_license": "creativeml-openrail-m",
+    "mask_conversion": "invert: white retained upstream",
+    "adaptations": [
+      "single known mask instead of contour_shrink",
+      "frozen model weights",
+      "PyTorch scaled dot-product attention",
+      "zero-dropout gradient checkpointing",
+      "VAE slicing",
+      "progress/cancel instrumentation"
+    ],
+    "peak_cuda_allocated_bytes": 4052472320,
+    "peak_cuda_reserved_bytes": 4427087872,
+    "human_review": "pending",
+    "effectiveness": "not_tested"
+  },
+  "paired_editor_completed": true,
+  "safety_filtered": false,
+  "effectiveness": "not_tested",
+  "human_review": "pending"
+}

@@ -1,0 +1,43 @@
+{
+  "results": [
+    {
+      "width": 1440,
+      "checks": [
+        "empty",
+        "upload",
+        "numeric-mask",
+        "session-restore",
+        "model-unavailable",
+        "attack-empty",
+        "verify-unavailable",
+        "history",
+        "dark-theme",
+        "no-overflow",
+        "keyboard-nav",
+        "reduced-motion",
+        "alpha-consent",
+        "delete"
+      ]
+    },
+    {
+      "width": 390,
+      "checks": [
+        "empty",
+        "upload",
+        "numeric-mask",
+        "session-restore",
+        "model-unavailable",
+        "attack-empty",
+        "verify-unavailable",
+        "history",
+        "dark-theme",
+        "no-overflow",
+        "keyboard-nav",
+        "reduced-motion",
+        "alpha-consent",
+        "delete"
+      ]
+    }
+  ],
+  "errors": []
+}

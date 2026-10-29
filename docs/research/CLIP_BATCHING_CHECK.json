@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "device": "cpu",
+  "weights": "tiny random real CLIP architecture, not pretrained",
+  "checks": [
+    "no cross-image gradient",
+    "batched vs individual global-input gradients",
+    "batched vs individual top-k patch gradients"
+  ],
+  "purpose": "batch execution correctness only, not frontier efficacy"
+}

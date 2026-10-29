@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "status": "local_runtime_smoke_validated_effectiveness_unreviewed",
+  "note": "Actual local CUDA optimization and paired editor smoke completed. Quality outcomes are measured separately; no efficacy claim.",
+  "models": [
+    {
+      "id": "sd15_inpaint",
+      "repo_id": "stable-diffusion-v1-5/stable-diffusion-inpainting",
+      "revision": "8a4288a76071f7280aedbdb3253bdb9e9d5d84bb",
+      "local_path": "D:\\IS\\ImageShield\\models\\sd15_inpaint",
+      "role": [
+        "defense_surrogate",
+        "paired_editor"
+      ],
+      "working_resolution": [
+        512,
+        512
+      ],
+      "license_from_model_card": "creativeml-openrail-m",
+      "ready": true,
+      "snapshot_path": "D:\\IS\\ImageShield\\models\\sd15_inpaint",
+      "status": "local_runtime_smoke_validated",
+      "variant": "fp16",
+      "weights_ready": true,
+      "files": {
+        "tokenizer/merges.txt": {
+          "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+          "bytes": 524619,
+          "lfs_sha256_verified": false
+        },
+        "tokenizer/vocab.json": {
+          "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349",
+          "bytes": 1059962,
+          "lfs_sha256_verified": false
+        },
+        "vae/config.json": {
+          "sha256": "4cd0ce4803567837175fbb8412689fe77d069c1ef8171beb83979db309a8bad5",
+          "bytes": 552,
+          "lfs_sha256_verified": false
+        },
+        "safety_checker/config.json": {
+          "sha256": "d69bd41b02b5e8f4d3b148871ce03b1eaf108467ee3c505fe67b5b814ca3109e",
+          "bytes": 4777,
+          "lfs_sha256_verified": false
+        },
+        "feature_extractor/preprocessor_config.json": {
+          "sha256": "2a1da83b5e1032aaeef397552ddb408dca0d8cd1dc58f61bf6abf38d6f33a0a2",
+          "bytes": 342,
+          "lfs_sha256_verified": false
+        },
+        "tokenizer/special_tokens_map.json": {
+          "sha256": "c4864a9376a8401918425bed71fc14fc0e81f9b59ec45c1cf96cccb2df508eac",
+          "bytes": 472,
+          "lfs_sha256_verified": false
+        },
+        "scheduler/scheduler_config.json": {
+          "sha256": "8b457848b74deeeab2a967b75048dd2cb6f393cfc17751eca1b5ec655cff0183",
+          "bytes": 313,
+          "lfs_sha256_verified": false
+        },
+        "text_encoder/config.json": {
+          "sha256": "845df614cb9327ae7bbea027316246fae917827407da6df13572e41b5f93b4cc",
+          "bytes": 617,
+          "lfs_sha256_verified": false
+        },
+        "config.json": {
+          "sha256": "669f6581087fac5b16c44e42c58b359a35eadf2af5691d7945480bd7ceac8e6d",
+          "bytes": 748,
+          "lfs_sha256_verified": false
+        },
+        "tokenizer/tokenizer_config.json": {
+          "sha256": "00439066fcba73de57644cf41e4e3b9f2dbb09d7f3fc2005898ba52399045882",
+          "bytes": 806,
+          "lfs_sha256_verified": false
+        },
+        "model_index.json": {
+          "sha256": "636d700de8970a70f02b91d433ad949dc2ceb750f39ba0cf2cf39ef0b0b9d1e4",
+          "bytes": 548,
+          "lfs_sha256_verified": false
+        },
+        "unet/config.json": {
+          "sha256": "669f6581087fac5b16c44e42c58b359a35eadf2af5691d7945480bd7ceac8e6d",
+          "bytes": 748,
+          "lfs_sha256_verified": false
+        },
+        "README.md": {
+          "sha256": "6f5758cfeabddb509b09399d6f0879056c5fd0002d7d9849bc183a6de9a98ab0",
+          "bytes": 15107,
+          "lfs_sha256_verified": false
+        },
+        "unet/diffusion_pytorch_model.fp16.safetensors": {
+          "sha256": "24b788b4a777748377cc20364eea4ae113c8c42f4468c16bc8c02fdae5492af9",
+          "bytes": 1719154104,
+          "lfs_sha256_verified": true
+        },
+        "vae/diffusion_pytorch_model.fp16.safetensors": {
+          "sha256": "4fbcf0ebe55a0984f5a5e00d8c4521d52359af7229bb4d81890039d2aa16dd7c",
+          "bytes": 167335342,
+          "lfs_sha256_verified": true
+        },
+        "text_encoder/model.fp16.safetensors": {
+          "sha256": "77795e2023adcf39bc29a884661950380bd093cf0750a966d473d1718dc9ef4e",
+          "bytes": 246144864,
+          "lfs_sha256_verified": true
+        },
+        "safety_checker/model.fp16.safetensors": {
+          "sha256": "08902f19b1cfebd7c989f152fc0507bef6898c706a91d666509383122324b511",
+          "bytes": 608018440,
+          "lfs_sha256_verified": true
+        }
+      },
+      "runtime_smoke": {
+        "purpose": "smoke, not efficacy benchmark",
+        "synthetic_input": true,
+        "mask_semantics": "passed",
+        "pixel_change": "passed",
+        "quality": {
+          "psnr_db": 42.18309948973975,
+          "ssim": 0.9413525931576882,
+          "max_absolute_difference": 0.019607843137254943,
+          "mean_absolute_difference": 0.005983529683032067,
+          "epsilon": 0.01568627450980392,
+          "rounding_tolerance": 0.00392156862745098,
+          "gate": "failed",
+          "human_review": "pending"
+        },
+        "provenance": {
+          "method": "diffusionguard",
+          "profile": "smoke",
+          "iterations": 20,
+          "training_config": {
+            "size": 512,
+            "iters": 20,
+            "grad_reps": 1,
+            "batch_size": 1,
+            "eps": 0.03137254901960784,
+            "step_size": 0.00392156862745098,
+            "num_inference_steps": 4,
+            "mask": {
+              "generation_method": "single",
+              "contour_strength": 1.1,
+              "contour_iters": 15,
+              "contour_smoothness": 0.1
+            }
+          },
+          "epsilon_rgb": 0.01568627450980392,
+          "epsilon_upstream_normalized": 0.03137254901960784,
+          "mask_policy": "single_known_mask",
+          "reproduction_status": "adapted upstream objective; no contour augmentation or robustness claim",
+          "step_size_upstream_normalized": 0.00392156862745098,
+          "seed": 42,
+          "upstream_commit": "96e28c19124fbb0e0671f48931ffed180775c7ea",
+          "torch_version": "2.1.1+cu121",
+          "diffusers_version": "0.24.0",
+          "model_id": "sd15_inpaint",
+          "model_revision": "8a4288a76071f7280aedbdb3253bdb9e9d5d84bb",
+          "model_license": "creativeml-openrail-m",
+          "mask_conversion": "invert: white retained upstream",
+          "adaptations": [
+            "single known mask instead of contour_shrink",
+            "frozen model weights",
+            "PyTorch scaled dot-product attention",
+            "zero-dropout gradient checkpointing",
+            "VAE slicing",
+            "progress/cancel instrumentation"
+          ],
+          "peak_cuda_allocated_bytes": 4052472320,
+          "peak_cuda_reserved_bytes": 4427087872,
+          "human_review": "pending",
+          "effectiveness": "not_tested"
+        },
+        "paired_editor_completed": true,
+        "safety_filtered": false,
+        "effectiveness": "not_tested",
+        "human_review": "pending"
+      }
+    },
+    {
+      "id": "sdxl_inpaint",
+      "repo_id": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+      "revision": null,
+      "local_path": "models/sdxl_inpaint",
+      "role": [
+        "optional_held_out_editor"
+      ],
+      "working_resolution": [
+        1024,
+        1024
+      ],
+      "license_from_model_card": "openrail++",
+      "ready": false
+    }
+  ],
+  "defenders": [
+    {
+      "id": "diffusionguard",
+      "source": "https://github.com/choi403/DiffusionGuard",
+      "commit": "96e28c19124fbb0e0671f48931ffed180775c7ea",
+      "model": "sd15_inpaint",
+      "status": "adapted_single_mask_runtime_smoke_validated",
+      "license_status": "no_upstream_license_file_found"
+    },
+    {
+      "id": "photoguard",
+      "source": "https://github.com/MadryLab/photoguard",
+      "commit": null,
+      "model": "sd15_inpaint",
+      "status": "baseline_to_reproduce"
+    },
+    {
+      "id": "diffvax",
+      "source": "https://github.com/ozdentarikcan/DiffVax",
+      "commit": null,
+      "checkpoint": null,
+      "checkpoint_sha256": null,
+      "status": "optional_unverified"
+    }
+  ],
+  "watermark": {
+    "source": "https://github.com/facebookresearch/watermark-anything",
+    "commit": null,
+    "checkpoint": null,
+    "status": "phase_2_optional"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "torch": "2.6.0+cu124",
+  "diffusers": "0.35.2",
+  "device": "cpu",
+  "weights": "tiny random initialization, NOT pretrained",
+  "checks": [
+    "actual FluxTransformer2DModel forward contract",
+    "both normalized modalities captured",
+    "joint rotary position embedding",
+    "Eq13 dense objective and gradient equivalence",
+    "reference input receives gradients",
+    "prefix truncation",
+    "hooks removed after exception",
+    "real VAE posterior-mode/shift/scale and Kontext packing helpers",
+    "objective gradient reaches RGB pixels through actual VAE and transformer"
+  ],
+  "effectiveness": "not_tested"
+}

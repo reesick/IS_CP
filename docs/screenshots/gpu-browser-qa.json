@@ -1,0 +1,190 @@
+{
+  "purpose": "Synthetic smoke execution; not a defense efficacy benchmark",
+  "errors": [],
+  "protection_job_id": "fd987321-f855-46a7-a100-772b21ab8ed5",
+  "protection": {
+    "id": "fd987321-f855-46a7-a100-772b21ab8ed5",
+    "asset_id": "b43c2444-bc18-4de0-aaa8-ba9361725127",
+    "kind": "protect",
+    "state": "succeeded",
+    "stage": "Protection generated",
+    "completed_steps": 20,
+    "total_steps": 20,
+    "created": 1793115623.2965527,
+    "updated": 1793115647.8622084,
+    "heartbeat": 1793115647.1070664,
+    "cancel_requested": 0,
+    "output": {
+      "protection_generated": true,
+      "effectiveness": "not_tested",
+      "quality": {
+        "psnr_db": 50.62546675809386,
+        "ssim": 0.9922037406022887,
+        "max_absolute_difference": 0.007843137254901988,
+        "mean_absolute_difference": 0.002172487545636744,
+        "epsilon": 0.00392156862745098,
+        "rounding_tolerance": 0.00392156862745098,
+        "gate": "passed",
+        "human_review": "pending"
+      },
+      "artifacts": {
+        "clean": "9e7ec851-373b-43b9-adf7-1550962a6fd4",
+        "protected": "9273b1b4-1d3b-4a11-b4d3-5dc9fc31d461"
+      },
+      "provenance": {
+        "method": "diffusionguard",
+        "profile": "smoke",
+        "iterations": 20,
+        "training_config": {
+          "size": 512,
+          "iters": 20,
+          "grad_reps": 1,
+          "batch_size": 1,
+          "eps": 0.00784313725490196,
+          "step_size": 0.00392156862745098,
+          "num_inference_steps": 4,
+          "mask": {
+            "generation_method": "single",
+            "contour_strength": 1.1,
+            "contour_iters": 15,
+            "contour_smoothness": 0.1
+          }
+        },
+        "epsilon_rgb": 0.00392156862745098,
+        "epsilon_upstream_normalized": 0.00784313725490196,
+        "mask_policy": "single_known_mask",
+        "reproduction_status": "adapted upstream objective; no contour augmentation or robustness claim",
+        "step_size_upstream_normalized": 0.00392156862745098,
+        "seed": 42,
+        "upstream_commit": "96e28c19124fbb0e0671f48931ffed180775c7ea",
+        "torch_version": "2.1.1+cu121",
+        "diffusers_version": "0.24.0",
+        "model_id": "sd15_inpaint",
+        "model_revision": "8a4288a76071f7280aedbdb3253bdb9e9d5d84bb",
+        "model_license": "creativeml-openrail-m",
+        "mask_conversion": "invert: white retained upstream",
+        "adaptations": [
+          "single known mask instead of contour_shrink",
+          "frozen model weights",
+          "PyTorch scaled dot-product attention",
+          "zero-dropout gradient checkpointing",
+          "VAE slicing",
+          "progress/cancel instrumentation"
+        ],
+        "peak_cuda_allocated_bytes": 4052414976,
+        "peak_cuda_reserved_bytes": 4431282176,
+        "human_review": "pending",
+        "effectiveness": "not_tested"
+      },
+      "elapsed_seconds": 23.85899999999674,
+      "scope": {
+        "editor": "sd15_inpaint",
+        "mask": "cd8982df-99a3-4559-acd9-129ae33f023c",
+        "channel": "local_png"
+      }
+    },
+    "error_code": null,
+    "error_message": null
+  },
+  "edit_job_id": "6bcbb559-a3a3-4ef5-ad61-7616c9c56477",
+  "edit": {
+    "id": "6bcbb559-a3a3-4ef5-ad61-7616c9c56477",
+    "asset_id": "b43c2444-bc18-4de0-aaa8-ba9361725127",
+    "kind": "edit",
+    "state": "succeeded",
+    "stage": "Comparison ready for human review",
+    "completed_steps": 2,
+    "total_steps": 2,
+    "created": 1793115650.1500099,
+    "updated": 1793115670.88064,
+    "heartbeat": 1793115670.2396195,
+    "cancel_requested": 0,
+    "output": {
+      "experiment_id": "ae47a0a3-b0a2-4ccd-99ee-876197d3b321",
+      "pairs": [
+        {
+          "seed": 11,
+          "clean": "3019abf6-e3c6-4c75-9c40-bd5fa1261690",
+          "protected": "ac15b17c-8716-4411-bd95-d5883dc97586",
+          "safety_filtered": false,
+          "edit_clean": "04a4e7ed-e56b-41c2-9b39-b1c1267bf385",
+          "edit_protected": "5b4617ac-140f-43b7-86a7-73f85b80cc23"
+        }
+      ],
+      "effectiveness": "inconclusive"
+    },
+    "error_code": null,
+    "error_message": null
+  },
+  "experiment": {
+    "id": "ae47a0a3-b0a2-4ccd-99ee-876197d3b321",
+    "config": {
+      "protection_job_id": "fd987321-f855-46a7-a100-772b21ab8ed5",
+      "mask_id": "cd8982df-99a3-4559-acd9-129ae33f023c",
+      "prompt": "a shiny silver ball on the background",
+      "editor": "sd15_inpaint",
+      "seeds": [
+        11
+      ],
+      "channel": "local_png",
+      "settings": {
+        "num_inference_steps": 30,
+        "guidance_scale": 7.5,
+        "strength": 0.99,
+        "negative_prompt": "",
+        "height": 512,
+        "width": 512
+      },
+      "torch_version": "2.1.1+cu121",
+      "diffusers_version": "0.24.0",
+      "model_id": "sd15_inpaint",
+      "model_revision": "8a4288a76071f7280aedbdb3253bdb9e9d5d84bb",
+      "model_license": "creativeml-openrail-m",
+      "scheduler": {
+        "num_train_timesteps": 1000,
+        "beta_start": 0.00085,
+        "beta_end": 0.012,
+        "beta_schedule": "scaled_linear",
+        "trained_betas": null,
+        "clip_sample": false,
+        "set_alpha_to_one": false,
+        "steps_offset": 1,
+        "prediction_type": "epsilon",
+        "thresholding": false,
+        "dynamic_thresholding_ratio": 0.995,
+        "clip_sample_range": 1,
+        "sample_max_value": 1,
+        "timestep_spacing": "leading",
+        "rescale_betas_zero_snr": false,
+        "_use_default_values": [
+          "timestep_spacing",
+          "sample_max_value",
+          "rescale_betas_zero_snr",
+          "prediction_type",
+          "dynamic_thresholding_ratio",
+          "clip_sample_range",
+          "thresholding"
+        ],
+        "_class_name": "DDIMScheduler",
+        "_diffusers_version": "0.6.0.dev0",
+        "skip_prk_steps": true
+      },
+      "channel_transform": null,
+      "effectiveness": "inconclusive",
+      "human_review": "pending"
+    },
+    "pairs": [
+      {
+        "seed": 11,
+        "clean": "3019abf6-e3c6-4c75-9c40-bd5fa1261690",
+        "protected": "ac15b17c-8716-4411-bd95-d5883dc97586",
+        "safety_filtered": false,
+        "edit_clean": "04a4e7ed-e56b-41c2-9b39-b1c1267bf385",
+        "edit_protected": "5b4617ac-140f-43b7-86a7-73f85b80cc23"
+      }
+    ],
+    "review": null,
+    "effectiveness": "inconclusive"
+  },
+  "passed": true
+}

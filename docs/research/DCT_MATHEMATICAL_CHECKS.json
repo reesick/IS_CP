@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "orthonormal block DCT inversion",
+    "4:2:0 coefficient counts",
+    "integer original coefficients",
+    "neutral color reconstruction",
+    "gradient to all coefficient channels",
+    "finite difference coefficient gradient"
+  ],
+  "purpose": "mathematical implementation checks only"
+}

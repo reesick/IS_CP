@@ -1,0 +1,90 @@
+{
+  "purpose": "Synthetic smoke execution; not a defense efficacy benchmark",
+  "errors": [],
+  "protection_job_id": "65b396bc-3c94-4070-bb91-38a24f85bf96",
+  "protection": {
+    "id": "65b396bc-3c94-4070-bb91-38a24f85bf96",
+    "asset_id": "b12a0063-2929-42a8-b0ed-d8b0c8346006",
+    "kind": "protect",
+    "state": "rejected_quality",
+    "stage": "Output rejected by quality gate",
+    "completed_steps": 20,
+    "total_steps": 20,
+    "created": 1793115554.327591,
+    "updated": 1793115579.992265,
+    "heartbeat": 1793115579.2451618,
+    "cancel_requested": 0,
+    "output": {
+      "protection_generated": false,
+      "effectiveness": "not_tested",
+      "quality": {
+        "psnr_db": 46.007651041482475,
+        "ssim": 0.9750023367616566,
+        "max_absolute_difference": 0.01176470588235301,
+        "mean_absolute_difference": 0.00396424835803462,
+        "epsilon": 0.00784313725490196,
+        "rounding_tolerance": 0.00392156862745098,
+        "gate": "failed",
+        "human_review": "pending"
+      },
+      "artifacts": {
+        "clean": "df319bb3-735a-49e0-a6b5-b07ba13056d8",
+        "diagnostic": "cbbc846c-af9e-4521-9098-754392cc6cae"
+      },
+      "provenance": {
+        "method": "diffusionguard",
+        "profile": "smoke",
+        "iterations": 20,
+        "training_config": {
+          "size": 512,
+          "iters": 20,
+          "grad_reps": 1,
+          "batch_size": 1,
+          "eps": 0.01568627450980392,
+          "step_size": 0.00392156862745098,
+          "num_inference_steps": 4,
+          "mask": {
+            "generation_method": "single",
+            "contour_strength": 1.1,
+            "contour_iters": 15,
+            "contour_smoothness": 0.1
+          }
+        },
+        "epsilon_rgb": 0.00784313725490196,
+        "epsilon_upstream_normalized": 0.01568627450980392,
+        "mask_policy": "single_known_mask",
+        "reproduction_status": "adapted upstream objective; no contour augmentation or robustness claim",
+        "step_size_upstream_normalized": 0.00392156862745098,
+        "seed": 42,
+        "upstream_commit": "96e28c19124fbb0e0671f48931ffed180775c7ea",
+        "torch_version": "2.1.1+cu121",
+        "diffusers_version": "0.24.0",
+        "model_id": "sd15_inpaint",
+        "model_revision": "8a4288a76071f7280aedbdb3253bdb9e9d5d84bb",
+        "model_license": "creativeml-openrail-m",
+        "mask_conversion": "invert: white retained upstream",
+        "adaptations": [
+          "single known mask instead of contour_shrink",
+          "frozen model weights",
+          "PyTorch scaled dot-product attention",
+          "zero-dropout gradient checkpointing",
+          "VAE slicing",
+          "progress/cancel instrumentation"
+        ],
+        "peak_cuda_allocated_bytes": 4058976768,
+        "peak_cuda_reserved_bytes": 4399824896,
+        "human_review": "pending",
+        "effectiveness": "not_tested"
+      },
+      "elapsed_seconds": 24.578000000008615,
+      "scope": {
+        "editor": "sd15_inpaint",
+        "mask": "564b6915-f41d-403c-849e-a7efbc550001",
+        "channel": "local_png"
+      }
+    },
+    "error_code": null,
+    "error_message": null
+  },
+  "failure": "Error: Real protection state rejected_quality\n    at D:\\IS\\ImageShield\\scripts\\gpu-browser-qa.cjs:57:13"
+}

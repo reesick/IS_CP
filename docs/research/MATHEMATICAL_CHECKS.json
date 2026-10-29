@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "CaD dense equivalence",
+    "CaD query/key gradient equivalence",
+    "MIRAGE raw cosine/top-k arithmetic",
+    "secant extrapolation",
+    "zero-denominator stabilization",
+    "RGB projection"
+  ],
+  "purpose": "CPU mathematical checks only; no image-edit protection rate measured"
+}

@@ -1,0 +1,162 @@
+{
+  "audit_date": "2026-10-28",
+  "scope": "actual local runs; no external image inference",
+  "photoguard": {
+    "steps": 1000,
+    "elapsed_seconds": 527.9125925999999,
+    "quality": {
+      "psnr_db": 31.909995508422924,
+      "ssim": 0.6588145829654332,
+      "max_absolute_difference": 0.0313725490196079,
+      "mean_absolute_difference": 0.0236815458808849,
+      "epsilon": 0.03,
+      "rounding_tolerance": 0.00392156862745098,
+      "gate": "failed",
+      "human_review": "pending"
+    }
+  },
+  "diffvax": [
+    {
+      "image": 1,
+      "batchnorm_mode": "upstream_train",
+      "quality": {
+        "psnr_db": 24.789600031953714,
+        "ssim": 0.9029089605061174,
+        "max_absolute_difference": 1.0,
+        "mean_absolute_difference": 0.029638188181359788,
+        "epsilon": null,
+        "rounding_tolerance": 0.00392156862745098,
+        "gate": "failed",
+        "human_review": "pending",
+        "budget_reason": "Released checkpoint has no enforced perturbation budget."
+      }
+    },
+    {
+      "image": 1,
+      "batchnorm_mode": "eval",
+      "quality": {
+        "psnr_db": 33.38947581098285,
+        "ssim": 0.9873611349139079,
+        "max_absolute_difference": 1.0,
+        "mean_absolute_difference": 0.0040522806005540415,
+        "epsilon": null,
+        "rounding_tolerance": 0.00392156862745098,
+        "gate": "failed",
+        "human_review": "pending",
+        "budget_reason": "Released checkpoint has no enforced perturbation budget."
+      }
+    },
+    {
+      "image": 2,
+      "batchnorm_mode": "upstream_train",
+      "quality": {
+        "psnr_db": 22.456537556726882,
+        "ssim": 0.8484845703118818,
+        "max_absolute_difference": 0.9372549019607843,
+        "mean_absolute_difference": 0.046571504680159824,
+        "epsilon": null,
+        "rounding_tolerance": 0.00392156862745098,
+        "gate": "failed",
+        "human_review": "pending",
+        "budget_reason": "Released checkpoint has no enforced perturbation budget."
+      }
+    },
+    {
+      "image": 2,
+      "batchnorm_mode": "eval",
+      "quality": {
+        "psnr_db": 37.473999052732516,
+        "ssim": 0.985035348472446,
+        "max_absolute_difference": 0.8588235294117647,
+        "mean_absolute_difference": 0.0035779766007965723,
+        "epsilon": null,
+        "rounding_tolerance": 0.00392156862745098,
+        "gate": "passed",
+        "human_review": "pending",
+        "budget_reason": "Released checkpoint has no enforced perturbation budget."
+      }
+    },
+    {
+      "image": 3,
+      "batchnorm_mode": "upstream_train",
+      "quality": {
+        "psnr_db": 26.786822675296893,
+        "ssim": 0.9107811726405166,
+        "max_absolute_difference": 0.9568627450980393,
+        "mean_absolute_difference": 0.02028693404852176,
+        "epsilon": null,
+        "rounding_tolerance": 0.00392156862745098,
+        "gate": "failed",
+        "human_review": "pending",
+        "budget_reason": "Released checkpoint has no enforced perturbation budget."
+      }
+    },
+    {
+      "image": 3,
+      "batchnorm_mode": "eval",
+      "quality": {
+        "psnr_db": 35.67685755390779,
+        "ssim": 0.9866399956769648,
+        "max_absolute_difference": 0.4784313725490196,
+        "mean_absolute_difference": 0.0031818714017182535,
+        "epsilon": null,
+        "rounding_tolerance": 0.00392156862745098,
+        "gate": "passed",
+        "human_review": "pending",
+        "budget_reason": "Released checkpoint has no enforced perturbation budget."
+      }
+    }
+  ],
+  "dct_shield": {
+    "steps": 1000,
+    "elapsed_seconds": 447.83386199999995,
+    "coefficient_max_delta": 1.0,
+    "rgb_budget": null,
+    "quality": {
+      "psnr_db": 27.194975690572395,
+      "ssim": 0.5476721654557242,
+      "max_absolute_difference": 0.3411764705882353,
+      "mean_absolute_difference": 0.03235393848294527,
+      "epsilon": 0.03137254901960784,
+      "rounding_tolerance": 0.00392156862745098,
+      "gate": "failed",
+      "human_review": "pending"
+    }
+  },
+  "reduced_refusal_probe": {
+    "paper_reproduction": false,
+    "steps": 5000,
+    "elapsed_seconds": 583.7017366,
+    "image_size": [
+      768,
+      1024
+    ],
+    "quality": {
+      "psnr_db": 31.461161308570404,
+      "ssim": 0.790079522356486,
+      "max_absolute_difference": 0.0313725490196079,
+      "mean_absolute_difference": 0.025132822938474433,
+      "epsilon": 0.03137254901960784,
+      "rounding_tolerance": 0.00392156862745098,
+      "gate": "failed",
+      "human_review": "pending"
+    },
+    "commercial_refusal_verified": false
+  },
+  "local_editor_pairs": 15,
+  "generated_edits": 30,
+  "safety_filtered_pairs": 0,
+  "formal_human_efficacy_rating": "not_assigned",
+  "frontier_edit_prevention_rate": null,
+  "frontier_rate_reason": "No exact-target commercial editor study performed; no successful quality-preserving frontier defense established.",
+  "visual_observations": [
+    "Green-cap edits remain possible across inspected PhotoGuard/DiffVax seeds.",
+    "DCT native edits have strong distortion; JPEG85 again yields plausible green-shorts edits.",
+    "Source fidelity failed for PhotoGuard, DCT base and the reduced refusal probe."
+  ],
+  "limitations": [
+    "DCT base implementation and reused VAE are adaptations; no claim that every paper variant is defeated.",
+    "MIRAGE-informed probe omits seven encoders and unpublished target image assets.",
+    "CaD architecture/math checks are not pretrained-model efficacy."
+  ]
+}

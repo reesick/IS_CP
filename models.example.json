@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "status": "unresolved_template",
+  "note": "Resolve revisions and verify runtime before setting ready=true. No runtime was validated when these docs were authored.",
+  "models": [
+    {
+      "id": "sd15_inpaint",
+      "repo_id": "stable-diffusion-v1-5/stable-diffusion-inpainting",
+      "revision": null,
+      "local_path": "models/sd15_inpaint",
+      "role": [
+        "defense_surrogate",
+        "paired_editor"
+      ],
+      "working_resolution": [
+        512,
+        512
+      ],
+      "license_from_model_card": "creativeml-openrail-m",
+      "ready": false
+    },
+    {
+      "id": "sdxl_inpaint",
+      "repo_id": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+      "revision": null,
+      "local_path": "models/sdxl_inpaint",
+      "role": [
+        "optional_held_out_editor"
+      ],
+      "working_resolution": [
+        1024,
+        1024
+      ],
+      "license_from_model_card": "openrail++",
+      "ready": false
+    }
+  ],
+  "defenders": [
+    {
+      "id": "diffusionguard",
+      "source": "https://github.com/choi403/DiffusionGuard",
+      "commit": null,
+      "model": "sd15_inpaint",
+      "status": "primary_to_reproduce"
+    },
+    {
+      "id": "photoguard",
+      "source": "https://github.com/MadryLab/photoguard",
+      "commit": null,
+      "model": "sd15_inpaint",
+      "status": "baseline_to_reproduce"
+    },
+    {
+      "id": "diffvax",
+      "source": "https://github.com/ozdentarikcan/DiffVax",
+      "commit": null,
+      "checkpoint": null,
+      "checkpoint_sha256": null,
+      "status": "optional_unverified"
+    }
+  ],
+  "watermark": {
+    "source": "https://github.com/facebookresearch/watermark-anything",
+    "commit": null,
+    "checkpoint": null,
+    "status": "phase_2_optional"
+  }
+}
+

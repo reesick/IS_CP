@@ -1,0 +1,11 @@
+# Candidate environment from audited DeContext release; not an installed lock.
+# Keep separate from the working SD1.5/API environments.
+torch==2.6.0
+torchvision==0.21.0
+diffusers==0.35.2
+transformers==4.57.1
+accelerate==1.11.0
+safetensors==0.6.2
+sentencepiece>=0.1.99
+numpy==2.1.3
+Pillow==11.3.0

@@ -1,0 +1,79 @@
+{
+  "purpose": "Synthetic JPEG stress smoke; not an Instagram round trip or efficacy benchmark",
+  "passed": true,
+  "experiment": {
+    "id": "72df372c-93b2-4bed-a053-9071161fda2d",
+    "config": {
+      "protection_job_id": "fd987321-f855-46a7-a100-772b21ab8ed5",
+      "mask_id": "cd8982df-99a3-4559-acd9-129ae33f023c",
+      "prompt": "a shiny silver ball on the background",
+      "editor": "sd15_inpaint",
+      "seeds": [
+        11
+      ],
+      "channel": "jpeg_simulation",
+      "settings": {
+        "num_inference_steps": 30,
+        "guidance_scale": 7.5,
+        "strength": 0.99,
+        "negative_prompt": "",
+        "height": 512,
+        "width": 512
+      },
+      "torch_version": "2.1.1+cu121",
+      "diffusers_version": "0.24.0",
+      "model_id": "sd15_inpaint",
+      "model_revision": "8a4288a76071f7280aedbdb3253bdb9e9d5d84bb",
+      "model_license": "creativeml-openrail-m",
+      "scheduler": {
+        "num_train_timesteps": 1000,
+        "beta_start": 0.00085,
+        "beta_end": 0.012,
+        "beta_schedule": "scaled_linear",
+        "trained_betas": null,
+        "clip_sample": false,
+        "set_alpha_to_one": false,
+        "steps_offset": 1,
+        "prediction_type": "epsilon",
+        "thresholding": false,
+        "dynamic_thresholding_ratio": 0.995,
+        "clip_sample_range": 1.0,
+        "sample_max_value": 1.0,
+        "timestep_spacing": "leading",
+        "rescale_betas_zero_snr": false,
+        "_use_default_values": [
+          "sample_max_value",
+          "dynamic_thresholding_ratio",
+          "prediction_type",
+          "timestep_spacing",
+          "clip_sample_range",
+          "thresholding",
+          "rescale_betas_zero_snr"
+        ],
+        "_class_name": "DDIMScheduler",
+        "_diffusers_version": "0.6.0.dev0",
+        "skip_prk_steps": true
+      },
+      "channel_transform": {
+        "format": "JPEG",
+        "quality": 85,
+        "subsampling": 2,
+        "description": "synthetic stress test"
+      },
+      "effectiveness": "inconclusive",
+      "human_review": "pending"
+    },
+    "pairs": [
+      {
+        "seed": 11,
+        "clean": "8ae8dd4b-26e4-409f-8cdd-b3997557414b",
+        "protected": "44854496-c739-480c-9bfc-ae8399784d79",
+        "safety_filtered": false,
+        "edit_clean": "9ae2934a-fba3-4acf-8a38-753fe6a77e7c",
+        "edit_protected": "f18aa8bc-0d46-49f7-8635-d4bcb91e0ce4"
+      }
+    ],
+    "review": null,
+    "effectiveness": "inconclusive"
+  }
+}

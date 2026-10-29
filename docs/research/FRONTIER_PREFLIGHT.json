@@ -1,0 +1,17 @@
+{
+  "ready": false,
+  "reasons": [
+    "Current full-resident loader requires a 40GB-class CUDA device; this GPU is smaller. A staged differentiable loader is not validated.",
+    "Resolved local FLUX.1-Kontext-dev snapshot is not installed.",
+    "Exact local model revision/hash manifest is missing."
+  ],
+  "hardware": {
+    "strategy": "full-resident research adapter; CPU/quantized staged optimization is not implemented",
+    "cuda_available": true,
+    "total_vram_bytes": 6438780928
+  },
+  "paper": "arxiv:2610.35566v1",
+  "scope": "FLUX.1 Kontext only",
+  "author_code_verified": false,
+  "full_model_execution_verified": false
+}
